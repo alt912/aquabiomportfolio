@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription - AquaBiome{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/login.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="page-container">
+    {# On réutilise le style du login pour la cohérence #}
+    <div class="page">
+        <div class="logo-container">
+            <img src="{{ asset('image/logo_aquabiome.png') }}" alt="Logo AquaBiome">
+        </div>
+
+        <div class="avatar">
+            <span class="line"></span>
+            <div class="circle"><i class="bi bi-person-fill-add"></i></div>
+            <span class="line"></span>
+        </div>
+
+        <div class="login-box">
+            <h1>Inscription</h1>
+            
+            <div class="form-error">
+                {{ form_errors(registrationForm) }}
+            </div>
+
+            {{ form_start(registrationForm) }}
+                <div class="input-group">
+                    <div class="icon-circle"><i class="bi bi-person-fill"></i></div>
+                    {{ form_widget(registrationForm.nom, {'attr': {'placeholder': 'Nom (optionnel)'}}) }}
+                </div>
+                <div class="form-error">
+                    {{ form_errors(registrationForm.nom) }}
+                </div>
+
+                <div class="input-group">
+                    <div class="icon-circle"><i class="bi bi-envelope-fill"></i></div>
+                    {{ form_widget(registrationForm.email, {'attr': {'placeholder': 'Email'}}) }}
+                </div>
+                <div class="form-error">
+                    {{ form_errors(registrationForm.email) }}
+                </div>
+
+                <div class="input-group">
+                    <div class="icon-circle"><i class="bi bi-lock-fill"></i></div>
+                    {{ form_widget(registrationForm.plainPassword, {'attr': {'placeholder': 'Mot de passe'}}) }}
+                </div>
+                <div class="form-error">
+                    {{ form_errors(registrationForm.plainPassword) }}
+                </div>
+
+                <button type="submit" class="btn">S'inscrire</button>
+            {{ form_end(registrationForm) }}
+
+            <div class="register-link" style="margin-top: 15px; text-align: center;">
+                <p>Déjà un compte ? <a href="{{ path('app_login') }}">Se connecter</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

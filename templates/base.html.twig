@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AquaBiome{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{{ asset('image/logo_aquabiome.png') }}">
+
+    {# Preload des ressources critiques pour un rendu plus rapide #}
+    <link rel="preload" href="/styles/base.css" as="style">
+    <link rel="preload" href="/image/fondaquabiome.webp" as="image" type="image/webp">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/fonts/bootstrap-icons.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    {# Empêche le flash de contenu non stylisé (FOUC) #}
+    <style>body { visibility: hidden; }</style>
+    
+    {% block stylesheets %}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="{{ asset('styles/base.css') }}?v=3">
+        {# Rend le body visible dès que les CSS critiques sont chargés #}
+        <style>body { visibility: visible; }</style>
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ importmap('app') }}
+    {% endblock %}
+</head>
+<body>
+    {# Splash Screen Animation (Hidden immediately, shown BEFORE page render if needed) #}
+    <div id="splash-screen" class="splash-screen" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #ffffff; z-index: 9999; justify-content: center; align-items: center; transition: opacity 0.5s ease-out, visibility 0.5s ease-out;">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 30px;">
+            <picture>
+                <source srcset="{{ asset('image/logo_aquabiome.webp') }}" type="image/webp">
+                <img src="{{ asset('image/logo_aquabiome.png') }}" class="splash-logo" alt="AquaBiome Logo" style="width: 160px; height: auto;">
+            </picture>
+            
+            {# Barre de chargement sleek #}
+            <div style="width: 140px; height: 4px; background: rgba(63, 81, 181, 0.1); border-radius: 4px; overflow: hidden; position: relative;">
+                <div id="splash-progress" style="height: 100%; width: 0%; background: linear-gradient(90deg, #3f51b5, #00b4d8); border-radius: 4px; transition: width 1.8s cubic-bezier(0.65, 0, 0.35, 1);"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Exécution immédiate (bloquante) pour éviter tout flash ou lenteur
+        if (!sessionStorage.getItem('splashShown')) {
+            const splash = document.getElementById('splash-screen');
+            const progress = document.getElementById('splash-progress');
+            splash.style.display = 'flex'; // On l'affiche tout de suite
+            
+            // On enregistre qu'il a été vu
+            sessionStorage.setItem('splashShown', 'true');
+
+            // Lancer l'animation de la barre de façon fluide
+            setTimeout(() => {
+                progress.style.width = '100%';
+            }, 50);
+            
+            // Disparition après 2 secondes (fin de l'animation de la barre)
+            setTimeout(() => {
+                splash.style.opacity = '0';
+                splash.style.visibility = 'hidden';
+                setTimeout(() => splash.style.display = 'none', 500);
+            }, 2000);
+        }
+    </script>
+
+    <div class="ocean-animation" aria-hidden="true">
+        <div class="light-rays"></div>
+        <div class="bubbles-container">
+            <div class="bubble b1"></div><div class="bubble b2"></div>
+            <div class="bubble b3"></div><div class="bubble b4"></div>
+            <div class="bubble b5"></div><div class="bubble b6"></div>
+            <div class="bubble b7"></div><div class="bubble b8"></div>
+            <div class="bubble b9"></div><div class="bubble b10"></div>
+            <div class="bubble b11"></div><div class="bubble b12"></div>
+        </div>
+        <div class="fish-container">
+            <div class="fish f1"></div><div class="fish f2"></div>
+            <div class="fish f3"></div><div class="fish f4"></div>
+            <div class="fish f5"></div><div class="fish f6"></div>
+            <div class="fish f7"></div><div class="fish f8"></div>
+            <div class="fish f9"></div><div class="fish f10"></div>
+            <div class="fish f11"></div><div class="fish f12"></div>
+            <div class="fish f13"></div><div class="fish f14"></div>
+            <div class="fish f15"></div>
+        </div>
+    </div>
+
+    {% block header %}
+    <header class="main-header">
+        <div class="header-inner">
+            <div class="header-container">
+                {# Logo gauche #}
+                <a href="{{ path('homePage') }}" class="logo-link">
+                    <picture>
+                        <source srcset="{{ asset('image/logo_aquabiome.webp') }}" type="image/webp">
+                        <img src="{{ asset('image/logo_aquabiome.png') }}" class="header-logo" alt="Logo" decoding="sync" fetchpriority="high">
+                    </picture>
+                </a>
+
+                {# Badge central dynamique #}
+                <div class="active-tab-pill">
+                    <span class="pill-emoji">{% block page_icon %}<i class="bi bi-house-door-fill" style="color: #3f51b5;"></i>{% endblock %}</span>
+                    <span class="pill-text">{% block page_name %}Accueil{% endblock %}</span>
+                </div>
+
+                {# Actions à droite : Ajouter → To-do → Profil #}
+                <div class="right-actions">
+                    <a href="{{ path('ajoutDonnee') }}" class="nav-icon" title="Ajouter une donnée" style="font-size: 1.5rem; text-decoration: none; color: #3f51b5;">
+                        <i class="bi bi-plus-circle-fill"></i>
+                    </a>
+
+                    <a href="{{ path('toDoList') }}" class="nav-icon" title="To-do List" style="font-size: 1.5rem; color: #333;">
+                        <i class="bi bi-journal-check"></i>
+                    </a>
+
+                    {% block header_profile_icon %}
+                    <a href="{{ path('gestion_compte') }}" class="user-profile">
+                        {% if app.user and app.user.avatar %}
+                            <img src="{{ asset('uploads/avatars/' ~ app.user.avatar) }}" alt="Profil" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+                        {% else %}
+                            <i class="bi bi-person-circle" style="font-size: 1.5rem; color: #666;"></i>
+                        {% endif %}
+                    </a>
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </header>
+    {% endblock %}
+
+    <div class="page-outer">
+        <div class="smartphone-container">
+            <main>
+                {% block body %}{% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

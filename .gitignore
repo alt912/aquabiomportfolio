@@ -1,0 +1,22 @@
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/asset-mapper ###
+/public/assets/
+###< symfony/asset-mapper ###
+
+###> symfony/phpunit-bridge ###
+/.phpunit.result.cache
+###< symfony/phpunit-bridge ###
+
+###> Custom ###
+/.DS_Store
+/cookie.txt
+###< Custom ###

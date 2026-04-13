@@ -1,0 +1,273 @@
+/* Zone de contenu principale */
+.profil-content {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.profil-label {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Carte principale du profil */
+.user-card {
+    background: white;
+    border-radius: 25px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 35px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.user-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(90deg, #f06292, #3f51b5);
+}
+
+.avatar-large-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.avatar-large {
+    width: 100px;
+    height: 100px;
+    border: 4px solid #3f51b5;
+    /* Violet principal */
+    background: #e8eaf6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    color: #3f51b5;
+    box-shadow: 0 4px 10px rgba(63, 81, 181, 0.2);
+}
+
+.btn-edit-avatar {
+    position: absolute;
+    bottom: -10px;
+    right: -25px;
+    /* Déborde du coin en bas à droite */
+    background: white;
+    color: #3f51b5;
+    /* Bleu principal */
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    /* Ombre plus marquée */
+    transition: all 0.3s ease;
+    border: 2px solid #e8eaf6;
+    /* Petite bordure douce */
+    z-index: 10;
+}
+
+.btn-edit-avatar:hover {
+    background: #f1f2f6;
+    transform: translateY(-2px);
+    color: #f06292;
+    /* Passe au rose au survol comme l'ancien crayon */
+}
+
+.user-info h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #2c3e50;
+    font-weight: 700;
+}
+
+.user-info p {
+    margin: 5px 0 20px 0;
+    font-size: 0.95rem;
+    color: #7f8c8d;
+}
+
+/* Bouton déconnexion */
+.btn-logout {
+    background: #f1f2f6;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    color: #57606f;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.btn-logout:hover {
+    background: #dfe4ea;
+    transform: translateY(-2px);
+}
+
+/* Section paramètres / Historique */
+.settings-section {
+    margin-top: 30px;
+}
+
+.history-item {
+    background: white;
+    border-radius: 15px;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.icon-history {
+    font-size: 1.4rem;
+    /* color: #3f51b5; */
+    color: #576574;
+}
+
+/* --- NOUVEAUX STYLES POUR L'HISTORIQUE --- */
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.history-card {
+    /* Glassmorphism Effect */
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.history-card:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.history-date {
+    font-size: 0.85rem;
+    color: #636e72;
+    margin-bottom: 5px;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.history-values {
+    font-size: 1.1rem;
+    color: #2d3436;
+    line-height: 1.6;
+}
+
+.history-values strong {
+    color: #2d3436;
+    font-weight: 700;
+}
+
+.btn-edit {
+    background: transparent;
+    color: #3f51b5 !important;
+    border: none;
+    padding: 5px;
+    font-size: 1.2rem;
+    /* Agrandissement de l'icône */
+    border-radius: 50%;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    width: 35px;
+    height: 35px;
+}
+
+.btn-edit:hover {
+    background-color: #e8eaf6;
+    /* Légère teinte au survol */
+    transform: scale(1.1);
+    color: #f06292 !important;
+}
+
+/* Timeline des traces */
+.history-traces {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.trace-label {
+    font-size: 0.8rem;
+    color: #b2bec3;
+    font-style: italic;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.trace-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.trace-item {
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.badge-action {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.badge-creation {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.badge-modification {
+    background-color: #fff3e0;
+    color: #ef6c00;
+}
+
+.trace-details {
+    color: #636e72;
+}

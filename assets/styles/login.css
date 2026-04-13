@@ -1,0 +1,170 @@
+/* Global Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    /* Un fond légèrement teinté pour rappeler l'univers */
+    background-color: #ffeef2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container principal centré */
+.page-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+/* Carte de connexion/inscription */
+.page {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(240, 98, 146, 0.2);
+    /* Ombre rosée */
+    padding: 40px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Logo */
+.logo-container {
+    margin-bottom: 20px;
+}
+
+.logo-container img {
+    max-width: 150px;
+    height: auto;
+}
+
+/* Avatar stylisé */
+.avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.avatar .line {
+    height: 2px;
+    background-color: #f8bbd0;
+    /* Ligne rose clair */
+    flex: 1;
+}
+
+.avatar .circle {
+    width: 60px;
+    height: 60px;
+    background-color: #f06292;
+    /* Le Rose AquaBiome */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    margin: 0 15px;
+    box-shadow: 0 4px 10px rgba(240, 98, 146, 0.4);
+}
+
+/* Champs de formulaire */
+.login-box {
+    margin-bottom: 20px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px 15px 15px 50px;
+    /* Espace pour l'icône */
+    border: 1px solid #f8bbd0;
+    /* Bordure rose très pâle */
+    border-radius: 30px;
+    outline: none;
+    transition: all 0.3s ease;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.input-group input:focus {
+    border-color: #f06292;
+    box-shadow: 0 0 0 3px rgba(240, 98, 146, 0.1);
+}
+
+.icon-circle {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #f06292;
+    /* Icônes en rose */
+}
+
+/* Boutons */
+.btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 30px;
+    /* Dégradé Rose -> Violet comme demandé */
+    background: linear-gradient(to right, #f06292 0%, #3f51b5 100%);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(240, 98, 146, 0.4);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Lien d'inscription */
+.register-link p {
+    color: #880e4f;
+    font-size: 14px;
+}
+
+.register-link a {
+    color: #f06292;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* Messages d'erreur */
+.error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    border-left: 5px solid #c62828;
+}
+
+.form-error {
+    color: #c62828;
+    font-size: 12px;
+    text-align: left;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding-left: 0;
+    text-align: center;
+}

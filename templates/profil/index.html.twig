@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil - AquaBiome{% endblock %}
+
+{# On définit le nom et l'icône pour le header de base.html.twig #}
+{% block page_name %}Profil{% endblock %}
+{% block page_icon %}
+    {% if app.user and app.user.avatar %}
+        <img src="{{ asset('uploads/avatars/' ~ app.user.avatar) }}" alt="Avatar" style="width: 20px; height: 20px; object-fit: cover; border-radius: 50%; vertical-align: middle;">
+    {% else %}
+        <i class="bi bi-person-circle"></i>
+    {% endif %}
+{% endblock %}
+
+{% block header_profile_icon %}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/profil.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="profil-content">
+    
+    <div class="profil-label">Profil</div>
+
+    {# Carte d'identité utilisateur dynamique #}
+    <section class="user-card">
+        <div class="avatar-large-container">
+            <div class="avatar-large">
+                {% if app.user.avatar %}
+                    <img src="{{ asset('uploads/avatars/' ~ app.user.avatar) }}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                {% else %}
+                    <i class="bi bi-person-bounding-box" style="font-size: 3rem; color: #3f51b5;"></i>
+                {% endif %}
+            </div>
+            
+            <a href="{{ path('app_profil_edit') }}" class="btn-edit-avatar">
+                Modifier
+            </a>
+        </div>
+        
+        <div class="user-info">
+            {% if app.user %}
+                {# Affiche le nom ou le début de l'email #}
+                <h2>{{ app.user.nom|default(app.user.email|split('@')[0]) }}</h2>
+                
+                {# Affiche l'email stocké en base de données #}
+                <p>{{ app.user.email }}</p>
+                <br>
+
+                {# Lien de déconnexion officiel de Symfony #}
+                <a href="{{ path('app_logout') }}" class="btn-logout">Se Déconnecter</a>
+            {% else %}
+                {# Cas de secours si le mec arrive à accéder à la page sans être connecté #}
+                <h2>Utilisateur</h2>
+                <p>Veuillez vous connecter</p>
+                <a href="{{ path('app_login') }}" class="btn-logout">Connexion</a>
+            {% endif %}
+        </div>
+    </section>
+
+    {# Section Paramètres / Historique #}
+    <section class="settings-section">
+        <div class="profil-label">Paramètres du Profil</div>
+        
+        <a href="#" class="history-item">
+            <span class="icon-history"><i class="bi bi-arrow-counterclockwise"></i></span>
+            {# On peut même personnaliser le texte avec le nom de l'user #}
+            Historique de {{ app.user ? (app.user.nom|default(app.user.userIdentifier)) : 'mon compte' }}
+        </a>
+
+        <div class="history-list" style="margin-top: 15px;">
+            {% if mesures is defined and mesures is not empty %}
+                {% for mesure in mesures %}
+                    <div class="history-card">
+                        <div class="history-header">
+                            <div>
+                                <span class="history-date">{{ mesure.dateSaisie|date('d/m/Y à H:i') }}</span>
+                                <div class="history-values">
+                                    Temp: <strong>{{ mesure.temperature }}°C</strong> | 
+                                    pH: <strong>{{ mesure.ph }}</strong> | 
+                                    GH: <strong>{{ mesure.gh }}</strong>
+                                </div>
+                            </div>
+                            <a href="{{ path('app_mesure_edit', {id: mesure.id}) }}" class="btn-edit" title="Modifier">
+                                <i class="bi bi-pencil-square" style="color: #0984e3;"></i>
+                            </a>
+                        </div>
+
+                        {# Affichage de l'historique des modifications #}
+                        {% if mesure.historiques is not empty %}
+                            <div class="history-traces">
+                                <span class="trace-label">Historique des changements :</span>
+                                <ul class="trace-list">
+                                    {% for trace in mesure.historiques %}
+                                        <li class="trace-item">
+                                            <small style="color: #b2bec3;">{{ trace.dateAction|date('d/m H:i') }}</small>
+                                            {% if trace.action == 'CREATION' %}
+                                                <span class="badge-action badge-creation">Création</span>
+                                            {% else %}
+                                                <span class="badge-action badge-modification">Correction</span>
+                                                <span class="trace-details">{{ trace.details }}</span>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p style="text-align: center; color: white;">Aucune activité récente.</p>
+            {% endif %}
+        </div>
+    </section>
+
+</div>
+{% endblock %}
