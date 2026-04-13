@@ -1,14 +1,38 @@
-# Fichier de routage standard Symfony pour le dossier public/
+# Use the front controller as index file. It serves as a fallback solution when
+# every other static resource fails to be located.
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Si vous avez des erreurs, essayez de commenter ou de décommenter RewriteBase
-    RewriteBase /
+    # Determine the RewriteBase automatically and set it as environment variable.
+    # If the site is at /aquabiome/, this will set BASE to /aquabiome
+    RewriteCond %{REQUEST_URI}::$0 ^(/.+)/(.*)::\2$
+    RewriteRule .* - [E=BASE:%1]
 
-    # Redirection vers index.php si le fichier n'existe pas
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^(.*)$ index.php [QSA,L]
+    # Sets the HTTP_AUTHORIZATION header removed by Apache
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule ^ - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-    # Sécurité : empêcher l'accès aux fichiers sensibles
-    RewriteRule ^\.env$ - [F,L]
+    # Redirect to URI without front controller to prevent duplicate content
+    # (with index.php). Only do this redirect in the initial rewrite to not carry
+    # over redirection status.
+    RewriteCond %{ENV:REDIRECT_STATUS} ^$
+    RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
+
+    # If the requested filename exists, simply serve it.
+    # We only want to let Apache serve files and not directories.
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+
+    # Rewrite all other queries to the front controller.
+    # Note: No leading slash here to correctly use the RewriteBase
+    RewriteRule ^ %{ENV:BASE}/index.php [L]
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+    <IfModule mod_alias.c>
+        # When mod_rewrite is not available, we instruct a temporary redirect of
+        # the start page to the front controller explicitly so that the website
+        # and the generated links can still be used.
+        RedirectMatch 307 ^/$ /index.php/
+    </IfModule>
 </IfModule>
