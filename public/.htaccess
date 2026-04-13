@@ -1,36 +1,6 @@
-# Use the front controller as index file. It serves as a fallback solution when
-# every other static resource fails to be located.
+# Ce fichier est vide pour laisser le .htaccess de la racine gérer le routage.
+# Cela évite les conflits de RewriteBase sur Alwaysdata.
 <IfModule mod_rewrite.c>
     RewriteEngine On
-
-    # Si votre site Alwaysdata pointe directement sur le dossier public, 
-    # la racine est / même si l'URL contient /aquabiome/
     RewriteBase /
-
-    # Sets the HTTP_AUTHORIZATION header removed by Apache
-    RewriteCond %{HTTP:Authorization} .
-    RewriteRule ^ - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-
-    # Redirect to URI without front controller to prevent duplicate content
-    # (with index.php). Only do this redirect in the initial rewrite to not carry
-    # over redirection status.
-    RewriteCond %{ENV:REDIRECT_STATUS} ^$
-    RewriteRule ^index\.php(?:/(.*)|$) $1 [R=301,L]
-
-    # If the requested filename exists, simply serve it.
-    # We only want to let Apache serve files and not directories.
-    RewriteCond %{REQUEST_FILENAME} -f
-    RewriteRule ^ - [L]
-
-    # Rewrite all other queries to the front controller.
-    RewriteRule ^ index.php [L]
-</IfModule>
-
-<IfModule !mod_rewrite.c>
-    <IfModule mod_alias.c>
-        # When mod_rewrite is not available, we instruct a temporary redirect of
-        # the start page to the front controller explicitly so that the website
-        # and the generated links can still be used.
-        RedirectMatch 307 ^/$ /index.php/
-    </IfModule>
 </IfModule>

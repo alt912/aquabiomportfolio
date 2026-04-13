@@ -1,5 +1,14 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteRule ^$ public/ [L]
-    RewriteRule (.*) public/$1 [L]
+    
+    # IMPORTANT : Le chemin de base dans l'URL
+    RewriteBase /aquabiome/
+
+    # Si on demande la racine, on va dans public
+    RewriteRule ^$ public/index.php [L]
+
+    # Si le fichier demandé n'existe pas, on envoie tout à public/index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ public/index.php [QSA,L]
 </IfModule>
