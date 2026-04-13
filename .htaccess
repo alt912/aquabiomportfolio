@@ -1,13 +1,10 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
-    # IMPORTANT : Le chemin de base dans l'URL
-    RewriteBase /aquabiome/
-
-    # Si on demande la racine, on va dans public
+    # Si on demande la racine du dossier aquabiome, on va dans public
     RewriteRule ^$ public/index.php [L]
 
-    # Si le fichier demandé n'existe pas, on envoie tout à public/index.php
+    # Pour tout le reste, si le fichier n'existe pas, on tente d'envoyer vers public/index.php
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)$ public/index.php [QSA,L]

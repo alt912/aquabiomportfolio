@@ -1,6 +1,14 @@
-# Ce fichier est vide pour laisser le .htaccess de la racine gérer le routage.
-# Cela évite les conflits de RewriteBase sur Alwaysdata.
+# Fichier de routage standard Symfony pour le dossier public/
 <IfModule mod_rewrite.c>
     RewriteEngine On
+
+    # Si vous avez des erreurs, essayez de commenter ou de décommenter RewriteBase
     RewriteBase /
+
+    # Redirection vers index.php si le fichier n'existe pas
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ index.php [QSA,L]
+
+    # Sécurité : empêcher l'accès aux fichiers sensibles
+    RewriteRule ^\.env$ - [F,L]
 </IfModule>
