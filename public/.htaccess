@@ -1,26 +1,21 @@
+# Use the front controller as index file. It serves as a fallback solution when
+# every other static resource fails to be located.
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Determine the RewriteBase automatically and set it as env variable.
-    RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
-    RewriteRule ^(.*) - [E=BASE:%1]
+    # If the site is at a subdirectory, set the base path.
+    # In this case: /aquabiome/
+    RewriteBase /aquabiome/
 
     # Sets the HTTP_AUTHORIZATION header removed by Apache
     RewriteCond %{HTTP:Authorization} .
     RewriteRule ^ - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
     # Redirect to URI without front controller to prevent duplicate content
-    # (with and without `/index.php`). Only do this redirect on the initial
-    # rewrite by Apache and not on subsequent cycles. Otherwise we would get an
-    # endless redirect loop (request -> rewrite to front controller ->
-    # redirect -> request -> ...).
-    # So in case you get a "too many redirects" error or you always get redirected
-    # to the start page because your Apache does not expose the REDIRECT_STATUS
-    # environment variable, you have 2 choices:
-    # - disable this feature by commenting the following 2 lines or
-    # - use Apache >= 2.3.9 and replace all [L] flags with [END] flags
+    # (with index.php). Only do this redirect in the initial rewrite to not carry
+    # over redirection status.
     RewriteCond %{ENV:REDIRECT_STATUS} ^$
-    RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
+    RewriteRule ^index\.php(?:/(.*)|$) $1 [R=301,L]
 
     # If the requested filename exists, simply serve it.
     # We only want to let Apache serve files and not directories.
@@ -28,7 +23,7 @@
     RewriteRule ^ - [L]
 
     # Rewrite all other queries to the front controller.
-    RewriteRule ^ %{ENV:BASE}/index.php [L]
+    RewriteRule ^ index.php [L]
 </IfModule>
 
 <IfModule !mod_rewrite.c>
@@ -37,6 +32,5 @@
         # the start page to the front controller explicitly so that the website
         # and the generated links can still be used.
         RedirectMatch 307 ^/$ /index.php/
-        # RedirectTemp cannot be used instead
     </IfModule>
 </IfModule>
